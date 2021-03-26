@@ -9,6 +9,8 @@ export default class ExchangeRate {
       })
       .catch(function(error) {
         return error;
+      /* eslint-disable semi */
       })
+      /* eslint-enable semi */
   }
 }
