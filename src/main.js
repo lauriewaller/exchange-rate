@@ -1,4 +1,5 @@
 import ExchangeRate from './js/service.js';
+import calcExchangeAmount from './js/exchange-amount.js';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
@@ -12,29 +13,16 @@ function clearFields() {
   $('.showErrors').text(""); 
 }
 
-function calcExchangeAmount(response, dollarAmount, currency) {
-  if (currency === 'euros' || currency === 'euro' || currency === 'eur') {
-    return dollarAmount * response.conversion_rates.EUR;
-  } else if (currency === 'yen' || currency === 'jpy') {
-    return dollarAmount * response.conversion_rates.JPY;
-  } else if (currency === 'pounds' || currency === 'pound' || currency === 'gbp') {
-    return dollarAmount * response.conversion_rates.GBP;
-  } else if (currency === 'australian dollars' || currency === 'australian dollar' || currency === 'aud') {
-    return dollarAmount * response.conversion_rates.AUD;
-  } else if (currency === 'francs' || currency === 'franc' || currency === 'swiss francs' || currency === 'swiss franc' || currency === 'chf') {
-    return dollarAmount * response.conversion_rates.CHF;
-  } else {
-    $('.showInvalidInput').text("Oops, please enter a valid currency.");
-    $('.showExchangeRate').hide();
-  }
+function showRate(response, dollarAmount, exchangeAmount, currency) {
+  $('.showExchangeRate').text(`${dollarAmount} dollar(s) is ${exchangeAmount} ${currency}.`);
+}
+function errors() {
+  $('.showInvalidInput').text("Oops, please enter a valid currency.");
+  $('.showExchangeRate').hide();
 }
 
-function showRate(response, dollarAmount, exchangeAmount, currency) {
-  if (response.conversion_rates) {
-    $('.showExchangeRate').text(`${dollarAmount} dollar(s) is ${exchangeAmount} ${currency}.`);
-  } else {
-    $('.showErrors').text(`There was an error: ${response.message}`);
-  }
+function displayErrors(error) {
+  $('.showErrors').text(`${error}`);
 }
 
 $('#exchange-button').click(function() {
@@ -44,8 +32,18 @@ $('#exchange-button').click(function() {
   clearFields();
   ExchangeRate.getRate()
     .then(function(response) {
-      console.log(response);
+      if (response instanceof Error) {
+        throw Error(`Exchange-Rate API error: ${response.message}`);
+      }
       let exchangeAmount = calcExchangeAmount(response, dollarAmount, currency);
-      showRate(response, dollarAmount, exchangeAmount, currency);
-    });
+      if (!exchangeAmount) {
+        errors();
+      } else {
+        showRate(response, dollarAmount, exchangeAmount, currency);
+      }
+    })
+    .catch(function(error) {
+      displayErrors(error.message);
+    })
 });
+
