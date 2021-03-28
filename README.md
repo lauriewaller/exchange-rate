@@ -29,7 +29,8 @@
 * webpack-cli 3.3.8
 * webpack-dev-server 3.8.0
 
-## This application converts the user's chosen amount in U.S. dollars into a different currency of the user's choice. The application is set to handle euros, Japanese yen, British pounds, Australian dollars, and Swiss francs.
+## Description
+This application converts the user's chosen amount in U.S. dollars into a different currency of the user's choice. The application is set to handle euros, Japanese yen, British pounds, Australian dollars, and Swiss francs.
 
 ## Setup/Installation Requirements
 
