@@ -1,9 +1,9 @@
 export default function calcExchangeAmount(response, dollarAmount, currency) {
   if (currency === 'euros' || currency === 'euro' || currency === 'eur') {
     return dollarAmount * response.conversion_rates.EUR;
-  } else if (currency === 'yen' || currency === 'jpy') {
+  } else if (currency === 'yen' || currency === 'japanese yen' || currency === 'jpy') {
     return dollarAmount * response.conversion_rates.JPY;
-  } else if (currency === 'pounds' || currency === 'pound' || currency === 'gbp') {
+  } else if (currency === 'pounds' || currency === 'pound' || currency === 'british pounds' || currency === 'british pound' || currency === 'gbp') {
     return dollarAmount * response.conversion_rates.GBP;
   } else if (currency === 'australian dollars' || currency === 'australian dollar' || currency === 'aud') {
     return dollarAmount * response.conversion_rates.AUD;
