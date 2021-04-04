@@ -13,7 +13,7 @@ function clearFields() {
   $('.showErrors').text(""); 
 }
 
-function showRate(response, dollarAmount, exchangeAmount, currency) {
+function showRate(dollarAmount, exchangeAmount, currency) {
   $('.showExchangeRate').text(`${dollarAmount} dollar(s) is ${exchangeAmount} ${currency}.`);
 }
 function errors() {
@@ -27,19 +27,19 @@ function displayErrors(error) {
 
 $('#exchange-button').click(function() {
   event.preventDefault();
+  let currency = $('#currency-type').val().toLowerCase();
+  let dollarAmount = $('#dollar-amount').val();
   clearFields();
   ExchangeRate.getRate()
     .then(function(response) {
       if (response instanceof Error) {
         throw Error(`Exchange-Rate API error: ${response.message}`);
       }
-      let currency = $('#currency-type').val().toLowerCase();
-      let dollarAmount = $('#dollar-amount').val();
       let exchangeAmount = calcExchangeAmount(response, dollarAmount, currency);
       if (!exchangeAmount) {
         errors();
       } else {
-        showRate(response, dollarAmount, exchangeAmount, currency);
+        showRate(dollarAmount, exchangeAmount, currency);
       }
     })
     .catch(function(error) {
