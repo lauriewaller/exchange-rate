@@ -44,6 +44,6 @@ $('#exchange-button').click(function() {
     })
     .catch(function(error) {
       displayErrors(error.message);
-    })
+    });
 });
 
