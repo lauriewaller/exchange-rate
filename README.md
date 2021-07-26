@@ -1,6 +1,6 @@
 # Exchange Rate Application
 
-#### An application that converts U.S. dollars to other currencies
+#### A JavaScript application that queries an API to convert U.S. dollars to other currencies
 
 #### By **Laurie Waller**
 
